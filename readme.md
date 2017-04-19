@@ -19,7 +19,7 @@ This scrapes the most recent energy usage from dom.com and outputs it to the ter
 - Have the dates display in the same format
 - Make the app a web page
 - Do my research much ahead of time on webscraping(Ran into many blocks)
-- Actually address the 10 or so Rubocop infractions
+- Address the 8 Rubocop infractions
 - Approach this from an OOP perspective
 
 ## If given much more time(Things that aren't completely new to me):
