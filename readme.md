@@ -1,22 +1,27 @@
-# Arcadia Power Challenge
-(Summary here)
+# Dominion Scraper
+This scrapes the most recent energy usage from dom.com and outputs it to the terminal
 
 ## Requirements
-- Homebrew
--  
+- Ruby 2.3.0+
+- Google Chrome 57.0
+- chromedriver 2.29
+(https://sites.google.com/a/chromium.org/chromedriver/)
+- watir gem
 
-## Summary
-This script scrapes Bill Information from a Dominion Power an authenticated user's account, primarily from this page: https://mya.dom.com/usage/analyzeyourenergyusage
+## Setup
+- include the ChromeDriver location in your PATH env variable
+- set username to ENV['DOM_USER'] and password to ENV['DOM_PASSWORD']
+- execute scrape_script.rb with `ruby scrape_script.rb`
 
-## Things I would do given more time
-- Figure out why the following error message is returned
-```
-/usr/local/lib/ruby/gems/2.4.0/gems/poltergeist-1.14.0/lib/capybara/poltergeist/browser.rb:376:in `command': Request to 'https://www.dom.com' failed to reach server, check DNS and/or server status (Capybara::Poltergeist::StatusFailError)
-	from /usr/local/lib/ruby/gems/2.4.0/gems/poltergeist-1.14.0/lib/capybara/poltergeist/browser.rb:35:in `visit'
-	from /usr/local/lib/ruby/gems/2.4.0/gems/poltergeist-1.14.0/lib/capybara/poltergeist/driver.rb:97:in `visit'
-	from /usr/local/lib/ruby/gems/2.4.0/gems/capybara-2.13.0/lib/capybara/session.rb:254:in `visit'
-	from scrape_script.rb:11:in `<main>'
-```
 
-- Store login credentials in environment variable or obtain user input from terminal
-- Write unit tests for the criteria below
+## Immediate things I would do given more time
+- Do my research much ahead of time on webscraping(Ran into many blocks)
+- Actually address the 10 or so Rubocop infractions
+- Approach this from an OOP perspective
+
+## For a whole app and if given much more time:
+- Research a more lightweight solution
+- Build an entire Ruby on Rails API with a ReactJS front-end that scrapes most
+- Write unit tests that tests(for each energy provider):
+	- The parent data html tag exists for each specific data
+	- 

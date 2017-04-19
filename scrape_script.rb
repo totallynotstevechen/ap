@@ -1,82 +1,29 @@
 require 'watir'
-require 'nokogiri'
-require 'open-uri'
 
 browser = Watir::Browser.new :chrome
-browser.goto 'dom.com'
-browser.button(:class => 'navbar-toggle').click
-browser.element(:class => "location-toggle-title").click
-browser.link(:text => "Virginia").when_present.click
 browser.window.resize_to(1920, 1080)
-browser.text_field(:name => "user").set "klobb65"
-browser.text_field(:name => "password").set "UyJ8ugayM03ZeLvuC66l"
+browser.goto 'dom.com'
+browser.element(xpath: '/html/body/div/header/div/div/div[1]/div[1]/a').click
+browser.link(xpath: '//*[@id="VA"]').wait_until_present.click
+browser.text_field(name: "user").set ENV['DOM_USER']
+browser.text_field(name: "password").set ENV['DOM_PASSWORD']
 
-browser.element(:id => 'SignIn').click
+browser.element(id: 'SignIn').click
+
+due_date = browser.element(xpath: '//*[@id="homepageContent"]/div[3]/div[1]/p/span[1]').text.strip
 
 browser.goto 'https://mya.dom.com/usage/analyzeyourenergyusage'
 
-puts browser.element(class: 'tbl-td-center').text.strip
-
-print doc
-
-# : usage (kWh), bill amount ($), service start date, service end date (also sometimes referred to as the meter read dates), and bill due date
-
-# print browser.body
-# browser.text_field(title: 'Search').set 'Hello World!'
-# browser.button(type: 'submit').click
-#
-# puts browser.title
-# # => 'Hello World! - Google Search'
-# browser.close
-
-# require 'nokogiri'
-# require 'mechanize'
-#
-# agent = Mechanize.new
-#
-# # Below opens URL requesting username and finds first field and fills in form then submits page.
-#
-# page = agent.get('http://www.dom.com/')
-#
-#
-# page.links.each do |link|
-#   puts link.text
-# end
-#
-# page = agent.page.link_with(:text => 'VA').click
-# print "pretty print page:"
-# pp page
-
-# session = Capybara::Session.new(:poltergeist)
-#
-# session.visit('https://www.dom.com')
-#
-# # dom_homepage = Nokogiri::HTML(open("https://www.dom.com/"))
-#
-# print session.document
-
-# // click sign in button
-# <a href="/sign-in" title="Sign In">Sign In</a>
-#
-# // click other
-# /// if login form is visible just login
-# // otherwise...
-# // click va
-# // this will result in https://www.dom.com/sign-in
-# // Fill login and password
-# // click submit
-# // use nokogiri to get
-# // https://mya.dom.com/usage/analyzeyourenergyusage
-# // find out which things to scrape
-#
-# print doc
-#
-## Requirements:
-## Homebrew 1.1.12
-## PhantomJS 2.1.1
-
-## Setup:
-## brew install phantomjs
+kwh = browser.element(xpath: '//*[@id="paymentsTable"]/tbody/tr[2]/td[3]').text.strip
+bill_amount = browser.element(xpath: '//*[@id="billHistoryTable"]/tbody/tr[2]/td[3]').text.strip
+month_days = browser.element(xpath: '//*[@id="paymentsTable"]/tbody/tr[2]/td[2]').text.strip
+end_date = browser.element(xpath: '//*[@id="paymentsTable"]/tbody/tr[2]/td[1]').text.strip
+start_date = Date.parse(end_date) - month_days.to_i
 
 
-#
+puts "Your Energy usage from #{start_date} to #{end_date}"
+puts 'Your kWh usage: ' + kwh
+puts 'Your Bill amount for March: ' + bill_amount
+puts "Start Date: #{start_date}"
+puts 'End Date: ' + end_date
+puts "Bill due date: #{due_date}"
